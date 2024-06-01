@@ -5,15 +5,14 @@ const ENC_TABLE: &'static [char; 2056] = &include!("./enc_table.src");
 
 pub fn encode(input: &str) -> String {
     let mut rng = rand::thread_rng();
-    let mut j = 0;
+    let mut j = 0.0;
     let mut output = String::new();
     for index in b2048::encode(rmw_utf8::encode(input.as_bytes()).as_slice()) {
         output.push(ENC_TABLE[index as usize]);
-        if rng.gen_range(0..16 - j) == 0 {
-            j += 1;
-            j += (16 - j) / 16;
+        if !rng.gen_bool(1.0 / (12.0 - j)) {
+            j += (12.0 - j) / 12.0;
         } else {
-            j = 0;
+            j = 0.0;
             output.push(['，', '。', '？', '！', '…', '~', '：', '、'][rng.gen_range(0..8)])
         }
     }

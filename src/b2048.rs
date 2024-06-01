@@ -15,9 +15,7 @@ pub fn encode(bytes: &[u8]) -> Vec<u16> {
             remaining += 8;
         }
     }
-    if remaining > 0 {
-        ret.push(if remaining <= 3 { stage + 2048 } else { stage });
-    }
+    ret.push(if remaining <= 3 { stage + 2048 } else { stage << (11 - remaining) });
     ret
 }
 
@@ -32,7 +30,7 @@ pub fn decode(chars: &[u16]) -> Vec<u8> {
         let (n_new_bits, new_bits) = match c {
             0..=2047 => {
                 if chars.peek().is_none() {
-                    (11 - residue, *c)
+                    (11 - residue, *c >> residue)
                 } else {
                     (11, *c)
                 }
@@ -48,9 +46,6 @@ pub fn decode(chars: &[u16]) -> Vec<u8> {
             ret.push((stage >> remaining) as u8);
             stage = stage & ((1 << remaining) - 1)
         }
-    }
-    if remaining > 0 {
-        ret.push((stage >> (8 - remaining)) as u8)
     }
     ret
 }

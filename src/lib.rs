@@ -1,3 +1,5 @@
+#![feature(unboxed_closures)]
+
 mod utils;
 mod b2048;
 mod c2048;
