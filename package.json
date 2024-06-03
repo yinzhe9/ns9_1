@@ -1,0 +1,11 @@
+{
+  "name": "ns9_1",
+  "version": "0.0.0",
+  "scripts": {
+    "install": "pnpm --filter page install",
+    "lint": "pnpm --filter page lint",
+    "dev": "wasm-pack build && pnpm --filter page dev",
+    "build": "wasm-pack build && pnpm --filter page build",
+    "preview": "pnpm --filter page preview"
+  }
+}
